@@ -1,0 +1,69 @@
+//code for visitor counter and light status
+#include <SoftwareSerial.h>
+SoftwareSerial BTserial(10, 11); // RX | TX
+#define in 8
+#define out 9
+#define led 2
+#define fan 3
+int count=0;
+void IN()
+{
+count=count+1;
+//Serial.println("person in the room");
+Serial.println(count);
+delay(1000);
+}
+void OUT()
+{
+count=count-1;
+//Serial.println("person in the room");ll
+Serial.println(count);
+delay(1000);
+}
+void setup()
+{
+Serial.begin(9600);
+BTserial.begin(9600);
+pinMode(in, INPUT);
+pinMode(out, INPUT);
+pinMode(led, OUTPUT);
+pinMode(fan, OUTPUT);
+// Serial.println("person in the room");
+// Serial.println(count);
+}
+void loop()
+{
+String cond1;
+if(digitalRead(in))
+IN();
+if(digitalRead(out))
+OUT();
+BTserial.print(count);
+BTserial.print(",");
+if(count<=0)
+{
+String cond = "off";
+// lcd.cledar();
+digitalWrite(led, LOW);
+digitalWrite(fan, HIGH);
+//BTserial.print(",");
+BTserial.print(cond);
+// delay(200);
+Serial.println("light is off");
+Serial.println("nobody");
+Serial.println(count);
+delay(200);
+}
+else
+{
+String cond = "on";
+Serial.println("Light is on");
+Serial.println(count);
+digitalWrite(led, HIGH);
+digitalWrite(fan, LOW);
+//BTserial.print(",");
+BTserial.print(cond);
+delay(200);
+}
+BTserial.print(";");
+}
