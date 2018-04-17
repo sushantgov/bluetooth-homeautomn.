@@ -1,0 +1,57 @@
+//code for manually switching appliances using app
+int motor=4;
+int light=2;
+int fan=3;
+int Received=0;
+int light_state =0;
+int fan_state = 0;
+//int vent_state = 0;
+//int pc_state = 0;
+void setup(){
+Serial.begin(9600);
+// pinMode(lamp,OUTPUT);
+//pinMode(vent,OUTPUT);
+pinMode(light,OUTPUT);
+pinMode(motor, OUTPUT);
+pinMode(fan, OUTPUT);
+// pinMode(pc,OUTPUT);
+}
+void loop(){
+if(Serial.available()>0)
+{
+Received = Serial.read();
+}
+////////////////LIGHT/////////////////////
+if (light_state == 0 && Received == '1')
+{
+digitalWrite(light,HIGH);
+light_state=1;
+Received=0;
+}
+if (light_state ==1 && Received == '1')
+{
+digitalWrite(light,LOW);
+light_state=0;
+Received=0;
+}
+//////////////////FAN/////////////////////////
+if (fan_state == 0 && Received == '1')
+{
+digitalWrite(fan,HIGH);
+fan_state=1;
+Received=0;
+}
+if (fan_state ==1 && Received == '1')
+{
+digitalWrite(fan,LOW);
+fan_state=0;
+Received=0;
+}
+////////////////MOTOR/////////////////////
+if (Received =='8'){
+digitalWrite(motor,HIGH);
+}
+if (Received == '9'){
+digitalWrite(motor,LOW);
+//Bluetooth app control
+}
